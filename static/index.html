@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance System Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h2>SMART<br>ATTENDANCE</h2>
+            </div>
+            
+            <nav class="menu">
+                <button class="menu-btn active" onclick="showTab('dashboard')">
+                    <i class="fa-solid fa-chart-pie"></i> Dashboard
+                </button>
+                <button class="menu-btn" onclick="showTab('students')">
+                    <i class="fa-solid fa-users"></i> Student Manager
+                </button>
+                <button class="menu-btn" onclick="showTab('register')">
+                    <i class="fa-solid fa-user-plus"></i> Register
+                </button>
+                <button class="menu-btn" onclick="showTab('settings')">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-danger" id="stopCameraBtn">
+                    <i class="fa-solid fa-video-slash"></i> Stop Camera
+                </button>
+                <p>Developed By<br>Sohail Ahmed</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Header -->
+            <header class="top-header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="clock" id="liveClock">--:--:--</div>
+            </header>
+
+            <!-- Dashboard Tab -->
+            <section id="dashboard" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="icon-bg blue"><i class="fa-solid fa-user-graduate"></i></div>
+                        <div class="stat-info">
+                            <p>Total Students</p>
+                            <h3 id="statTotalStudents">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon-bg green"><i class="fa-solid fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <p>Present Today</p>
+                            <h3 id="statToday">0</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon-bg purple"><i class="fa-solid fa-database"></i></div>
+                        <div class="stat-info">
+                            <p>Total Records</p>
+                            <h3 id="statTotalRecords">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="video-container">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-camera"></i> Live Camera Stream</h3>
+                            <span class="status-badge live">LIVE</span>
+                        </div>
+                        <img id="videoStream" src="/video_feed" alt="Camera Stream">
+                        <div class="last-recognized">
+                            <span>👤 Last Recognized:</span>
+                            <strong id="lastRecognizedName">Waiting...</strong>
+                        </div>
+                    </div>
+
+                    <div class="recent-container">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-list-ul"></i> Recent Attendance</h3>
+                        </div>
+                        <div class="attendance-list" id="recentAttendanceList">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Students Tab -->
+            <section id="students" class="tab-content">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Manage Students</h3>
+                        <div class="actions">
+                            <button class="btn-primary" onclick="loadStudents()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                            <button class="btn-warning" onclick="encodeFaces()"><i class="fa-solid fa-brain"></i> Train Model</button>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Images</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Register Tab -->
+            <section id="register" class="tab-content">
+                <div class="panel form-panel">
+                    <h3>Register New Student</h3>
+                    <p>Enter the student name and click capture. The system will take 5 photos from the live camera.</p>
+                    
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" id="regStudentName" placeholder="e.g. John Doe">
+                    </div>
+                    
+                    <button class="btn-primary" id="btnCapture" onclick="registerStudent()">
+                        <i class="fa-solid fa-camera-retro"></i> Capture Images
+                    </button>
+                    
+                    <p id="regStatus" class="status-text"></p>
+                </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="settings" class="tab-content">
+                <div class="panel form-panel">
+                    <h3>System Settings</h3>
+                    <p>Configure voice and camera parameters.</p>
+                    
+                    <div class="form-group">
+                        <label>Voice Announcements</label>
+                        <select id="setVoice">
+                            <option value="true">Enabled</option>
+                            <option value="false">Disabled</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Camera Index</label>
+                        <input type="number" id="setCamera" value="0">
+                    </div>
+                    
+                    <button class="btn-primary" onclick="alert('Settings update feature coming soon!')">Save Settings</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
