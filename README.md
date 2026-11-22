@@ -12,7 +12,7 @@
 
 Manual attendance taking in institutional and corporate environments incurs significant administrative overhead, human logging error, and vulnerability to proxy attendance.
 
-This project provides an end-to-end, reproducible implementation engineered to solve this challenge through verified data transformations, robust algorithms, and production-ready architecture.
+This project provides an end-to-end, reproducible implementation engineered to solve this challenge through verified data transformations, reliable algorithms, and production-ready architecture.
 
 ---
 
