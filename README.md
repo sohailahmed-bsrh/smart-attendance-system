@@ -1,27 +1,45 @@
-# Smart Attendance Tracking System
+<div align="center">
 
-> Automated facial recognition pipeline for real-time identity verification and attendance logging.
+<h1>Smart Biometric Attendance Verification System</h1>
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github)](https://github.com/sohailahmed-bsrh/smart-attendance-system)
-[![Live Showcase](https://img.shields.io/badge/Live-Showcase-0A66C2?style=flat-square&logo=googlechrome)](https://sohail.devsil.com/projects.html)
-[![Author](https://img.shields.io/badge/Author-Sohail%20Ahmed-20BEFF?style=flat-square)](https://sohail.devsil.com)
+<img src="https://readme-typing-svg.herokuapp.com?font=Inter&weight=800&size=22&duration=3000&pause=1000&color=6366F1&center=true&vCenter=true&width=800&lines=Facial+Biometric+Verification+Engine;Real-Time+Landmark+Tracking;Automated+Logging+%26+Excel+Reporting;Desktop+GUI+%2B+Web+Management+Console" alt="Typing Header" />
 
----
+<p><strong>Real-Time Facial Recognition Attendance Management System with Anti-Spoofing Architecture</strong></p>
 
-## Overview
+<p>
+  <a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=python,opencv,flask,github&theme=dark" alt="Skills" /></a>
+</p>
 
-Manual attendance taking in institutional and corporate environments incurs significant administrative overhead, human logging error, and vulnerability to proxy attendance.
-
-This project provides an end-to-end, reproducible implementation engineered to solve this challenge through verified data transformations, reliable algorithms, and production-ready architecture.
+</div>
 
 ---
 
-## Key Features
+## Executive Summary
 
-- Real-time facial detection and 128-dimensional biometric embedding extraction using OpenCV and dlib
-- Cosine similarity and Euclidean distance matching against an enrolled employee database
-- Automatic timestamped check-in and check-out tracking stored in SQLite with Excel reporting
-- Live desktop GUI for enrollment, stream preview, and automated analytics
+The Smart Biometric Attendance Verification System replaces manual record-keeping with automated computer vision authentication. Utilizing 128-dimensional facial embedding vectors and Euclidean distance comparison, the system identifies individuals in real time, prevents duplicate registrations, logs arrival timestamps, and compiles automated Excel reports.
+
+---
+
+## System Interface & Verification Gallery
+
+<table align="center">
+  <tr>
+    <td align="center"><b>Real-Time Facial Detection Interface</b><br><sub>Spatial landmark tracking with confidence bounding boxes.</sub></td>
+    <td align="center"><b>Biometric Identity Verification</b><br><sub>Instantaneous candidate verification against encoded face database.</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="screenshots/Screenshot%202026-08-05%20235618.png" alt="Detection UI" width="460"/></td>
+    <td align="center"><img src="screenshots/Screenshot%202026-08-05%20235707.png" alt="Verification UI" width="460"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Automated Attendance Timestamp Log</b><br><sub>Immutable attendance session logging and daily attendance records.</sub></td>
+    <td align="center"><b>Student Registration & Management</b><br><sub>Enrollment portal for capturing training image sets.</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="screenshots/Screenshot%202026-08-05%20235747.png" alt="Log Table" width="460"/></td>
+    <td align="center"><img src="screenshots/Screenshot%202026-08-05%20235812.png" alt="Management UI" width="460"/></td>
+  </tr>
+</table>
 
 ---
 
@@ -29,83 +47,49 @@ This project provides an end-to-end, reproducible implementation engineered to s
 
 ```mermaid
 flowchart TD
-    VideoInput[Video Stream / Web Camera] --> FaceDetect[Face Detection Cascade]
-    FaceDetect --> Align[Facial Landmark Alignment]
-    Align --> Embeddings[Biometric Embedding Extraction]
-    Embeddings --> MatchEngine{Database Match Engine}
-    MatchEngine -->|Match Found| Record[Timestamped Attendance Record]
-    MatchEngine -->|Unknown| Alert[Flag Unregistered Visitor]
-    Record --> Storage[(SQLite Database)]
-    Storage --> ExcelExport[Automated Excel / CSV Report]
+    A[Live Camera Video Stream] --> B[Haar Cascade / HOG Face Detection]
+    B --> C[68-Point Facial Landmark Alignment]
+    C --> D[128-Dimensional Deep Feature Embedding]
+    D --> E[Vector Distance Matcher vs Local Student Encodings]
+    E -->|Confidence Above Threshold| F[Verification Confirmed & Audio Confirmation]
+    E -->|Confidence Below Threshold| G[Unknown Face Alert]
+    F --> H[SQLite & Excel Attendance Record Write]
+    H --> I[Web Dashboard Visualization]
 ```
 
 ---
 
 ## Technology Stack
 
-| Technology | Version / Spec | Role in Architecture |
-| :--- | :--- | :--- |
-| **OpenCV** | `4.8+` | Real-time frame capture, preprocessing, and bounding box rendering |
-| **dlib / face_recognition** | `1.3+` | Facial landmark landmarking and 128-d vector embedding generation |
-| **Python** | `3.10+` | Core execution runtime and business logic orchestration |
-| **SQLite3** | `Built-in` | Local persistent storage for records, timestamps, and employee profiles |
-| **Tkinter / PyQt** | `Built-in` | Administrative desktop control interface |
+| Domain | Technologies |
+| :--- | :--- |
+| Vision Frameworks | OpenCV, Face Recognition, Dlib |
+| Core Language | Python 3.10+ |
+| Web Application | Flask, HTML5, CSS3, JavaScript |
+| Data Export | Pandas, OpenPyXL |
 
 ---
 
-## Repository Structure
+## Installation & Setup
 
-```text
-smart-attendance-system/
-|-- src/
-|   |-- attendance_system.py
-|   |-- encode_faces.py
-|   |-- analytics.py
-|   |-- export_excel.py
-|   |-- gui.py
-|   `-- config.py
-|-- data/
-|   |-- faces/
-|   `-- attendance.db
-|-- .gitignore
-|-- requirements.txt
-`-- README.md
-```
-
----
-
-## Installation and Execution
-
-### Prerequisites
-- Python 3.10 or higher
-- Git version control
-- Virtual environment manager (`venv`)
-
-### Setup Instructions
-1. Clone the repository:
 ```bash
+# Clone the repository
 git clone https://github.com/sohailahmed-bsrh/smart-attendance-system.git
 cd smart-attendance-system
-```
 
-2. Configure environment and dependencies:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Install dependencies
 pip install -r requirements.txt
+
+# Encode student face database
 python encode_faces.py
-python app.py
+
+# Launch attendance verification system
+python main.py
 ```
 
 ---
 
-## Interface and Verification
-The system produces verifiable execution logs, prediction matrices, or interactive browser interfaces depending on the target mode. Verify operation by executing the commands specified above or inspecting the demonstration notebooks.
+## Author & License
 
----
-
-## Author and Contact
-Developed by **Sohail Ahmed** — Full Stack AI Engineer & Machine Learning Specialist.
-- **Portfolio:** [sohail.devsil.com](https://sohail.devsil.com)
-- **GitHub:** [@sohailahmed-bsrh](https://github.com/sohailahmed-bsrh)
-- **Email:** [sohail.bsrh@gmail.com](mailto:sohail.bsrh@gmail.com)
+- **Author**: Sohail Ahmed ([Portfolio](https://sohail.devsil.com) | [GitHub](https://github.com/sohailahmed-bsrh))
+- **License**: Distributed under the MIT License.
